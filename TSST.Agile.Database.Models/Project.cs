@@ -18,5 +18,11 @@ namespace TSST.Agile.Database.Models
 
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Task> Tasks { get; set; }
+
+        public Project()
+        {
+            Users = new List<User>();
+            Tasks = new List<Task>();
+        }
     }
 }

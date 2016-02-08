@@ -16,5 +16,10 @@ namespace TSST.Agile.Database.Models
         public string LastName { get; set; }
 
         public virtual ICollection<Project> Projects { get; set; }
+
+        public User()
+        {
+            Projects = new List<Project>();
+        }
     }
 }

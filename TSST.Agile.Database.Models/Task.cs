@@ -24,5 +24,10 @@ namespace TSST.Agile.Database.Models
         public virtual Project Project { get; set; }
 
         public virtual ICollection<File> Files { get; set; }
+
+        public Task()
+        {
+            Files = new List<File>();
+        }
     }
 }

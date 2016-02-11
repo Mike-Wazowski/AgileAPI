@@ -57,12 +57,26 @@
     <Compile Include="Migrations\201602082047114_InitialCreate.Designer.cs">
       <DependentUpon>201602082047114_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602111744263_FriendsList.cs" />
+    <Compile Include="Migrations\201602111744263_FriendsList.Designer.cs">
+      <DependentUpon>201602111744263_FriendsList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201602111750099_UserPicture.cs" />
+    <Compile Include="Migrations\201602111750099_UserPicture.Designer.cs">
+      <DependentUpon>201602111750099_UserPicture.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201602082047114_InitialCreate.resx">
       <DependentUpon>201602082047114_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602111744263_FriendsList.resx">
+      <DependentUpon>201602111744263_FriendsList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602111750099_UserPicture.resx">
+      <DependentUpon>201602111750099_UserPicture.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

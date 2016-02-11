@@ -37,6 +37,17 @@
                 .HasRequired<Task>(x => x.Task)
                 .WithMany(x => x.Files)
                 .HasForeignKey(x => x.TaskId);
+
+            modelBuilder.Entity<Friendship>()
+                .HasRequired(x => x.Friend)
+                .WithMany()
+                .HasForeignKey(x => x.FriendId)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Friendship>()
+                .HasRequired(x => x.User)
+                .WithMany(x => x.Friendships)
+                .HasForeignKey(x => x.UserId);
         }
     }
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSST.Agile.Database.Models"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSST.Agile.Database.Configuration", "TSST.Agile.Database.Configuration\TSST.Agile.Database.Configuration.csproj", "{028BE346-769C-456B-9A42-18A6ECA1D98E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSST.Agile.Models", "TSST.Agile.Models\TSST.Agile.Models.csproj", "{1130A47A-781C-4990-978B-51BC29AC44C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{028BE346-769C-456B-9A42-18A6ECA1D98E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{028BE346-769C-456B-9A42-18A6ECA1D98E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{028BE346-769C-456B-9A42-18A6ECA1D98E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1130A47A-781C-4990-978B-51BC29AC44C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1130A47A-781C-4990-978B-51BC29AC44C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1130A47A-781C-4990-978B-51BC29AC44C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1130A47A-781C-4990-978B-51BC29AC44C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

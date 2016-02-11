@@ -10,6 +10,9 @@ namespace TSST.Agile.Web.Security
 {
     public class AuthTokenProvider: OAuthAuthorizationServerProvider
     {
+        public const string _fbIdKey = "fbId";
+        public const string _idKey = "id";
+
         private IGenericRepository<User> _userRepository;
 
         public override async System.Threading.Tasks.Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
@@ -34,10 +37,11 @@ namespace TSST.Agile.Web.Security
                     var friend = (IDictionary<string, object>)item;
                     friendsIdList.Add((string)friend["id"]);
                 }
-                await CreateOrUpdateUser(mainDataResponse.id, mainDataResponse.first_name, mainDataResponse.last_name, mainDataResponse.picture.data.url, friendsIdList);
+                var user = await CreateOrUpdateUser(mainDataResponse.id, mainDataResponse.first_name, mainDataResponse.last_name, mainDataResponse.picture.data.url, friendsIdList);
                 
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-                identity.AddClaim(new Claim("fbId", mainDataResponse.id));
+                identity.AddClaim(new Claim(_fbIdKey, mainDataResponse.id));
+                identity.AddClaim(new Claim(_idKey, user.Id));
 
                 await base.GrantCustomExtension(context);
                 context.Validated(identity);
@@ -45,7 +49,7 @@ namespace TSST.Agile.Web.Security
             return;
         }
 
-        private async System.Threading.Tasks.Task CreateOrUpdateUser(string fbId, string firstName, string lastName, string pictureUrl, List<string> friendsIdList)
+        private async System.Threading.Tasks.Task<User> CreateOrUpdateUser(string fbId, string firstName, string lastName, string pictureUrl, List<string> friendsIdList)
         {
             var user = await _userRepository.EntityFindByAsync(x => x.FacebookId == fbId);
             if(user == null)
@@ -55,11 +59,12 @@ namespace TSST.Agile.Web.Security
             else
                 await UpadateUser(user, friendsIdList);
             _userRepository.Save();
+            return user;
         }
 
         private async System.Threading.Tasks.Task UpadateUser(User user, List<string> friendsIdList)
         {
-            user.Friendships.Clear();
+            _userRepository.ExecCommand("DELETE FROM Friendships WHERE UserId = " + user.Id);
             var friends = await _userRepository.FindByAsync(x => friendsIdList.Contains(x.FacebookId));
             foreach (var friend in friends)
             {

@@ -30,6 +30,11 @@ namespace TSST.Agile.Database.Configuration.Implementations
             }
         }
 
+        public void ExecCommand(string query)
+        {
+            context.Database.ExecuteSqlCommand(query);
+        }
+
         public IEnumerable<T> ExecWithStoreProcedure(string query, params object[] parameters)
         {
             return context.Database.SqlQuery<T>(query, parameters);

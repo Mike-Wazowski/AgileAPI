@@ -18,6 +18,7 @@ namespace TSST.Agile.Database.Configuration.Interfaces
         void Save();
         IEnumerable<T> ExecWithStoreProcedure(string query, params object[] parameters);
         void ExecCommand(string query, params object[] parameters);
+        void ExecCommand(string query);
 
         void DisableChangeTracking();
         void EnableChangeTracking();

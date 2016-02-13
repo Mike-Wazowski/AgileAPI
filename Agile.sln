@@ -11,6 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSST.Agile.Database.Configu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TSST.Agile.Models", "TSST.Agile.Models\TSST.Agile.Models.csproj", "{1130A47A-781C-4990-978B-51BC29AC44C8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL scripts", "SQL scripts", "{6F20103E-B39C-490C-ACE2-EAB58576FF19}"
+	ProjectSection(SolutionItems) = preProject
+		GetUserProjects.sql = GetUserProjects.sql
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

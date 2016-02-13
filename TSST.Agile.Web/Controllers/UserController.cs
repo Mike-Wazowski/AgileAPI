@@ -23,27 +23,27 @@ namespace TSST.Agile.Web.Controllers
         }
 
         [HttpGet]
-        public async Task<ApplicationUser> GetProfile()
+        public async Task<UserViewModel> GetProfile()
         {
             var user = await _userRepository.EntityFindByAsync(x => x.FacebookId == _fbId);
             if (user != null)
             {
-                var applicationUser = Mapper.Map<ApplicationUser>(user);
-                return applicationUser;
+                var userViewModel = Mapper.Map<UserViewModel>(user);
+                return userViewModel;
             }
             else
                 throw new HttpResponseException(HttpStatusCode.NotFound);
         }
 
         [HttpGet]
-        public async Task<ICollection<ApplicationUser>> GetFriends()
+        public async Task<ICollection<UserViewModel>> GetFriends()
         {
             var user = await _userRepository.EntityFindByAsync(x => x.FacebookId == _fbId);
             if (user != null)
             {
-                var userFriends = user.Friendships.Select(x => x.Friend).ToList();
-                var applicationUserList = Mapper.Map<ICollection<User>, ICollection<ApplicationUser>>(userFriends);
-                return applicationUserList;
+                var userFriends = user.Friendships.Select(x => x.Friend);
+                var userViewModelList = Mapper.Map<IEnumerable<User>, ICollection<UserViewModel>>(userFriends);
+                return userViewModelList;
             }
             else
                 throw new HttpResponseException(HttpStatusCode.NotFound);

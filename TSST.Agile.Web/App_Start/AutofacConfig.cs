@@ -27,10 +27,9 @@ namespace TSST.Agile.Web.App_Start
                 .Where(x => x.Namespace.EndsWith(".Implementations"))
                 .AsImplementedInterfaces();
 
-            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerDependency();
+            builder.RegisterGeneric(typeof(GenericRepository<>)).As(typeof(IGenericRepository<>)).InstancePerRequest();
 
             builder.RegisterType<AgileDbContext>().As<IAgileDbContext>().InstancePerRequest();
-
             LoadAndRegisterAssemblies(builder);
 
             var container = builder.Build();

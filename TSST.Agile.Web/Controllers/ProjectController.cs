@@ -43,8 +43,11 @@ namespace TSST.Agile.Web.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task CreateProject(ProjectViewModel projectModel)
         {
-            if (ModelState.IsValid && projectModel?.UserIdList.Count > 0)
+            int userId = 0;
+            if (ModelState.IsValid && projectModel?.UserIdList.Count > 0 && Int32.TryParse(_id, out userId))
             {
+                if (!projectModel.UserIdList.Contains(userId))
+                    projectModel.UserIdList.Add(userId);
                 var project = Mapper.Map<Project>(projectModel);
                 var users = await _userRepository.FindByAsync(x => projectModel.UserIdList.Contains(x.Id));
                 if(users != null)

@@ -11,7 +11,7 @@ namespace TSST.Agile.Web.Security
     public class AuthTokenProvider: OAuthAuthorizationServerProvider
     {
         public const string _fbIdKey = "fbId";
-        public const string _idKey = "id";
+        public const string _idKey = "appId";
 
         private IGenericRepository<User> _userRepository;
 
@@ -37,11 +37,11 @@ namespace TSST.Agile.Web.Security
                     var friend = (IDictionary<string, object>)item;
                     friendsIdList.Add((string)friend["id"]);
                 }
-                var user = await CreateOrUpdateUser(mainDataResponse.id, mainDataResponse.first_name, mainDataResponse.last_name, mainDataResponse.picture.data.url, friendsIdList);
+                User user = await CreateOrUpdateUser(mainDataResponse.id, mainDataResponse.first_name, mainDataResponse.last_name, mainDataResponse.picture.data.url, friendsIdList);
                 
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim(_fbIdKey, mainDataResponse.id));
-                identity.AddClaim(new Claim(_idKey, user.Id));
+                identity.AddClaim(new Claim(_idKey, user.Id.ToString()));
 
                 await base.GrantCustomExtension(context);
                 context.Validated(identity);

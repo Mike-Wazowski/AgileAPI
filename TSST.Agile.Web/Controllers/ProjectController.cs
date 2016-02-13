@@ -30,30 +30,47 @@ namespace TSST.Agile.Web.Controllers
         public ICollection<ProjectViewModel> GetMyProjects()
         {
             int userId = 0;
-            if (!Int32.TryParse(_id, out userId))
+            if (Int32.TryParse(_id, out userId))
             {
                 var projects = _projectRepository.ExecWithStoreProcedure("exec GetUserProjects @UserId", new SqlParameter("UserId", userId));
                 var projectViewModelList = Mapper.Map<IEnumerable<Project>, ICollection<ProjectViewModel>>(projects);
                 return projectViewModelList;
             }
             else
-                throw new HttpResponseException(HttpStatusCode.NotFound);
+                throw new HttpResponseException(HttpStatusCode.InternalServerError);
         }
 
         [HttpPost]
         public async System.Threading.Tasks.Task CreateProject(ProjectViewModel projectModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && projectModel?.UserIdList.Count > 0)
             {
                 var project = Mapper.Map<Project>(projectModel);
-                _projectRepository.Add(project);
-                _projectRepository.Save();
                 var users = await _userRepository.FindByAsync(x => projectModel.UserIdList.Contains(x.Id));
-                foreach(var user in users)
+                if(users != null)
                 {
-                    user.Projects.Add(project);
+                    project.Users = users.ToList();
+                    foreach(var user in users)
+                    {
+                        user.Projects.Add(project);
+                    }
+                    _userRepository.Save();
                 }
-                _userRepository.Save();
+            }
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpDelete]
+        public async System.Threading.Tasks.Task DeleteProject(int id)
+        {
+            var project = await _projectRepository.EntityFindByAsync(x => x.Id == id);
+            if (project != null)
+            {
+                _projectRepository.Delete(project);
+                _projectRepository.Save();
             }
             else
             {

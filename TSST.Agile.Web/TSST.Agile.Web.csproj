@@ -229,6 +229,10 @@
       <Project>{332725e8-395a-4271-ac87-35ac1338c83b}</Project>
       <Name>TSST.Agile.Database.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TSST.Agile.FileStorage\TSST.Agile.FileStorage.csproj">
+      <Project>{73493c2f-2a06-4727-9dcd-46e2f03ad587}</Project>
+      <Name>TSST.Agile.FileStorage</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TSST.Agile.Models\TSST.Agile.Models.csproj">
       <Project>{1130a47a-781c-4990-978b-51bc29ac44c8}</Project>
       <Name>TSST.Agile.Models</Name>

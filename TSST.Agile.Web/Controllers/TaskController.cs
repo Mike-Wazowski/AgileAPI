@@ -1,12 +1,16 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web;
 using System.Web.Http;
 using TSST.Agile.Database.Configuration.Interfaces;
 using TSST.Agile.Database.Models;
+using TSST.Agile.FileStorage.Interfaces;
 using TSST.Agile.Models;
 
 namespace TSST.Agile.Web.Controllers
@@ -17,12 +21,14 @@ namespace TSST.Agile.Web.Controllers
         private IGenericRepository<Task> _taskRepository;
         private IGenericRepository<Project> _projectRepository;
         private IGenericRepository<User> _userRepository;
+        private IFileStorage _fileStorage;
 
-        public TaskController(IGenericRepository<Task> taskRepository, IGenericRepository<Project> projectRepository, IGenericRepository<User> userRepository)
+        public TaskController(IGenericRepository<Task> taskRepository, IGenericRepository<Project> projectRepository, IGenericRepository<User> userRepository, IFileStorage fileStorage)
         {
             _taskRepository = taskRepository;
             _projectRepository = projectRepository;
             _userRepository = userRepository;
+            _fileStorage = fileStorage;
         }
 
         [HttpGet]
@@ -107,6 +113,32 @@ namespace TSST.Agile.Web.Controllers
             {
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
+        }
+
+        [HttpPut]
+        public async System.Threading.Tasks.Task<HttpResponseMessage> AddFile()
+        {
+            var headers = Request.Headers;
+            var taskId = headers.GetValues("TaskId").FirstOrDefault();
+            var fileModel = new FileViewModel();
+            fileModel.Name = headers.GetValues("FileName").FirstOrDefault();
+            fileModel.Description = headers.GetValues("FileDescription").FirstOrDefault();
+            var task = await _taskRepository.EntityFindByAsync(x => x.Id.ToString() == taskId);
+            if (task != null)
+            {
+                var fileContent = await this.Request.Content.ReadAsStreamAsync();
+                MediaTypeHeaderValue contentTypeHeader = this.Request.Content.Headers.ContentType;
+                string contentType = contentTypeHeader != null ? contentTypeHeader.MediaType : "application/octet-stream";
+                var ms = new MemoryStream();
+                await fileContent.CopyToAsync(ms);
+                fileContent.Close();
+                string url = await _fileStorage.AddFile(task.ProjectId, task.Id, fileModel.Name, ms);
+                task.Files.Add(new Database.Models.File() { Name = fileModel.Name, Description = fileModel.Description, FileUrl = url });
+                _taskRepository.Save(); 
+                return this.Request.CreateResponse(HttpStatusCode.OK);
+            }
+            else
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest);
         }
     }
 }

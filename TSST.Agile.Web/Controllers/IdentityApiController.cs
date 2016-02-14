@@ -8,11 +8,10 @@ using TSST.Agile.Web.Security;
 
 namespace TSST.Agile.Web.Controllers
 {
-    [Authorize]
     public abstract class IdentityApiController: ApiController
     {
         protected readonly string _fbId = string.Empty;
-        protected readonly string _id = string.Empty;
+        protected readonly int _id = -1;
 
         public IdentityApiController()
         {
@@ -23,7 +22,9 @@ namespace TSST.Agile.Web.Controllers
             if (fbIdClaim != null)
                 _fbId = fbIdClaim.Value;
             if (idClaim != null)
-                _id = idClaim.Value;
+            {
+                Int32.TryParse(idClaim.Value, out _id);
+            }
         }
     }
 }

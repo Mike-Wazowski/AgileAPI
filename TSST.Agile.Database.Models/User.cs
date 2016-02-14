@@ -20,6 +20,7 @@ namespace TSST.Agile.Database.Models
         public virtual ICollection<Project> Projects { get; set; }
         [InverseProperty("User")]
         public virtual ICollection<Friendship> Friendships { get; set; }
+        public virtual ICollection<Task> Tasks { get; set; }
 
         public User()
         {

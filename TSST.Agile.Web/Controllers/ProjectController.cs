@@ -14,7 +14,6 @@ using TSST.Agile.Web.Helpers;
 
 namespace TSST.Agile.Web.Controllers
 {
-    [Authorize]
     public class ProjectController: IdentityApiController
     {
         private IGenericRepository<User> _userRepository;
@@ -29,8 +28,8 @@ namespace TSST.Agile.Web.Controllers
         [HttpGet]
         public ICollection<ProjectViewModel> GetMyProjects()
         {
-            int userId = 0;
-            if (Int32.TryParse(_id, out userId))
+            int userId = _id;
+            if (userId != -1)
             {
                 var projects = _projectRepository.ExecWithStoreProcedure("exec GetUserProjects @UserId", new SqlParameter("UserId", userId));
                 var projectViewModelList = Mapper.Map<IEnumerable<Project>, ICollection<ProjectViewModel>>(projects);
@@ -43,8 +42,8 @@ namespace TSST.Agile.Web.Controllers
         [HttpPost]
         public async System.Threading.Tasks.Task CreateProject(ProjectViewModel projectModel)
         {
-            int userId = 0;
-            if (ModelState.IsValid && projectModel?.UserIdList.Count > 0 && Int32.TryParse(_id, out userId))
+            int userId = _id;
+            if (ModelState.IsValid && projectModel?.UserIdList.Count > 0 && userId != -1)
             {
                 if (!projectModel.UserIdList.Contains(userId))
                     projectModel.UserIdList.Add(userId);

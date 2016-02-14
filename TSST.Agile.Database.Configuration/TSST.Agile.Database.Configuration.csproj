@@ -65,6 +65,10 @@
     <Compile Include="Migrations\201602111750099_UserPicture.Designer.cs">
       <DependentUpon>201602111750099_UserPicture.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201602141548170_UserTaskRelationship.cs" />
+    <Compile Include="Migrations\201602141548170_UserTaskRelationship.Designer.cs">
+      <DependentUpon>201602141548170_UserTaskRelationship.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -77,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201602111750099_UserPicture.resx">
       <DependentUpon>201602111750099_UserPicture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201602141548170_UserTaskRelationship.resx">
+      <DependentUpon>201602141548170_UserTaskRelationship.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

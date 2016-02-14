@@ -23,6 +23,10 @@ namespace TSST.Agile.Database.Models
         public int ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public virtual Project Project { get; set; }
+        public int UserId { get; set; }
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
+
 
         public virtual ICollection<File> Files { get; set; }
 

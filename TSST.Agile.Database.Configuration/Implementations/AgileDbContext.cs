@@ -33,6 +33,11 @@
                 .WithMany(x => x.Tasks)
                 .HasForeignKey(x => x.ProjectId);
 
+            modelBuilder.Entity<Task>()
+                .HasRequired<User>(x => x.User)
+                .WithMany(x => x.Tasks)
+                .HasForeignKey(x => x.UserId);
+
             modelBuilder.Entity<File>()
                 .HasRequired<Task>(x => x.Task)
                 .WithMany(x => x.Files)

@@ -61,5 +61,52 @@ namespace TSST.Agile.Web.Controllers
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
             }
         }
+
+        [HttpDelete]
+        public async System.Threading.Tasks.Task DeleteTask(int taskId)
+        {
+            var task = await _taskRepository.EntityFindByAsync(x => x.Id == taskId);
+            if(task != null && task.UserId == _id)
+            {
+                _taskRepository.Delete(task);
+                _taskRepository.Save();
+            }
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpPost]
+        public async System.Threading.Tasks.Task SetStateInProgress(int taskId)
+        {
+            var task = await _taskRepository.EntityFindByAsync(x => x.Id == taskId);
+            if(task != null && task.UserId == _id)
+            {
+                task.State = TaskState.InProgress;
+                task.StartDate = DateTime.Now;
+                _taskRepository.Save();
+            }
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+        }
+
+        [HttpPost]
+        public async System.Threading.Tasks.Task SetStateComplete(int taskId)
+        {
+            var task = await _taskRepository.EntityFindByAsync(x => x.Id == taskId);
+            if (task != null && task.UserId == _id)
+            {
+                task.State = TaskState.Complete;
+                task.CompleteDate = DateTime.Now;
+                _taskRepository.Save();
+            }
+            else
+            {
+                throw new HttpResponseException(HttpStatusCode.BadRequest);
+            }
+        }
     }
 }
